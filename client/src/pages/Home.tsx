@@ -12,7 +12,6 @@ function SiteHeader() {
     ["Training", "/training"],
     ["Achievements", "/achievements"],
     ["Gallery", "/gallery"],
-    ["Attendance", "/attendance"],
   ];
   return (
     <header className="site-header">
@@ -47,8 +46,9 @@ export default function Home() {
     <div className="site-shell">
       <SiteHeader />
       <main>
-        <section className="hero" style={{ backgroundImage: "linear-gradient(90deg, rgba(8,8,8,.98) 0%, rgba(8,8,8,.72) 45%, rgba(8,8,8,.18) 100%), linear-gradient(0deg, rgba(8,8,8,.82), transparent 48%), url('/manus-storage/dojo-wide_9b8a98e6.jpg')" }}>
+        <section className="hero" style={{ backgroundImage: "linear-gradient(90deg, rgba(5,5,5,.98) 0%, rgba(5,5,5,.78) 47%, rgba(5,5,5,.30) 100%), linear-gradient(0deg, rgba(5,5,5,.95), transparent 55%), url('/manus-storage/japanese-karate_a4a28657.webp')" }}>
           <div className="hero-grid" />
+          <div className="hero-kanji" aria-hidden="true"><span>空</span><span>手</span></div>
           <div className="hero-copy page-width">
             <div className="hero-kicker"><span className="pulse-dot" /> {content?.eyebrow ?? "THE COBRA STANDARD"}</div>
             <h1>{content?.headline ?? "DISCIPLINE. POWER. PRECISION."}</h1>
@@ -68,6 +68,11 @@ export default function Home() {
             {stats.map((stat: { value: string; label: string }) => <div className="stat" key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}
             <div className="stat stat-note"><Sparkles size={17} /><span>Content stays editable<br />from Coach Login.</span></div>
           </div>
+        </section>
+
+        <section className="attendance-entry page-width">
+          <div><span className="attendance-kanji">出席</span><div><span className="eyebrow">FOR STUDENTS</span><strong>Check your attendance</strong><p>Private lookup. No public account needed.</p></div></div>
+          <Link className="button button-primary" href="/attendance">Open check-in <ArrowUpRight size={16} /></Link>
         </section>
 
         <section className="section page-width split-section" id="academy">
@@ -111,5 +116,5 @@ export default function Home() {
 }
 
 export function Footer({ content }: { content?: any }) {
-  return <footer className="site-footer"><div className="page-width footer-grid"><div><Link href="/" className="footer-brand"><img src={logo} alt="Cobra crest" /><span>THE COBRA<br /><small>KARATE ACADEMY</small></span></Link><p>{content?.footer ?? "Training is the promise you keep to yourself."}</p></div><div className="footer-links"><div><span className="footer-heading">Explore</span><Link href="/academy">Academy</Link><Link href="/training">Training</Link><Link href="/gallery">Gallery</Link></div><div><span className="footer-heading">Connect</span><Link href="/attendance">Attendance</Link><Link href="/contact">Contact</Link><a href={content?.social?.instagram ?? "#"}><Instagram size={15} /> Instagram</a><a href={content?.social?.youtube ?? "#"}><Youtube size={15} /> YouTube</a></div></div></div><div className="page-width footer-bottom"><span>© 2026 The Cobra Karate Academy</span><Link href="/coach-login" className="coach-login">Coach login</Link><span>Built for the work.</span></div></footer>;
+  return <footer className="site-footer"><div className="page-width footer-grid"><div><Link href="/" className="footer-brand"><img src={logo} alt="Cobra crest" /><span>THE COBRA<br /><small>KARATE ACADEMY</small></span></Link><p>{content?.footer ?? "Training is the promise you keep to yourself."}</p></div><div className="footer-links"><div><span className="footer-heading">Explore</span><Link href="/academy">Academy</Link><Link href="/training">Training</Link><Link href="/gallery">Gallery</Link></div><div><span className="footer-heading">Connect</span><Link href="/contact">Contact</Link><a href={content?.social?.instagram ?? "#"}><Instagram size={15} /> Instagram</a><a href={content?.social?.youtube ?? "#"}><Youtube size={15} /> YouTube</a></div></div></div><div className="page-width footer-bottom"><span>© 2026 The Cobra Karate Academy</span><Link href="/coach-login" className="coach-login">Coach login</Link><span>Built for the work.</span></div></footer>;
 }
