@@ -70,11 +70,6 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="attendance-entry page-width">
-          <div><span className="attendance-kanji">出席</span><div><span className="eyebrow">FOR STUDENTS</span><strong>Check your attendance</strong><p>Private lookup. No public account needed.</p></div></div>
-          <Link className="button button-primary" href="/attendance">Open check-in <ArrowUpRight size={16} /></Link>
-        </section>
-
         <section className="section page-width split-section" id="academy">
           <div className="section-intro">
             <SectionLabel>01 — The academy</SectionLabel>
@@ -116,5 +111,5 @@ export default function Home() {
 }
 
 export function Footer({ content }: { content?: any }) {
-  return <footer className="site-footer"><div className="page-width footer-grid"><div><Link href="/" className="footer-brand"><img src={logo} alt="Cobra crest" /><span>THE COBRA<br /><small>KARATE ACADEMY</small></span></Link><p>{content?.footer ?? "Training is the promise you keep to yourself."}</p></div><div className="footer-links"><div><span className="footer-heading">Explore</span><Link href="/academy">Academy</Link><Link href="/training">Training</Link><Link href="/gallery">Gallery</Link></div><div><span className="footer-heading">Connect</span><Link href="/contact">Contact</Link><a href={content?.social?.instagram ?? "#"}><Instagram size={15} /> Instagram</a><a href={content?.social?.youtube ?? "#"}><Youtube size={15} /> YouTube</a></div></div></div><div className="page-width footer-bottom"><span>© 2026 The Cobra Karate Academy</span><Link href="/coach-login" className="coach-login">Coach login</Link><span>Built for the work.</span></div></footer>;
+  return <footer className="site-footer"><div className="page-width footer-grid"><div><Link href="/" className="footer-brand"><img src={logo} alt="Cobra crest" /><span>THE COBRA<br /><small>KARATE ACADEMY</small></span></Link><p>{content?.footer ?? "Training is the promise you keep to yourself."}</p></div><div className="footer-links"><div><span className="footer-heading">Explore</span><Link href="/academy">Academy</Link><Link href="/training">Training</Link><Link href="/gallery">Gallery</Link></div><div><span className="footer-heading">Connect</span><Link href="/contact">Contact</Link><a href={content?.social?.instagram ?? "#"}><Instagram size={15} /> Instagram</a><a href={content?.social?.youtube ?? "#"}><Youtube size={15} /> YouTube</a></div></div></div><div className="page-width footer-bottom"><span>© 2026 The Cobra Karate Academy</span><Link href="/attendance" className="attendance-footer-link">Check attendance</Link><Link href="/coach-login" className="coach-login">Coach login</Link><span>Built for the work.</span></div></footer>;
 }
