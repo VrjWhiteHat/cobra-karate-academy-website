@@ -1,4 +1,4 @@
-import { ArrowDownRight, ArrowUpRight, ChevronRight, Instagram, Menu, Play, Shield, X, Youtube } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, ChevronRight, Instagram, Menu, Play, Share2, Shield, X, Youtube } from "lucide-react";
 import { useState } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
@@ -96,14 +96,17 @@ export default function Home() {
 
         <section className="section page-width gallery-section"><div className="section-heading-row"><div><SectionLabel>05 — In the room</SectionLabel><h2>See the practice<br /><em>in motion.</em></h2></div><Link className="text-link" href="/gallery">Open gallery <ArrowUpRight size={15} /></Link></div><div className="gallery-grid">{gallery.slice(0, 4).map((item: { src: string; alt: string; label: string }, index: number) => <Link href="/gallery" className={`gallery-tile tile-${index + 1}`} key={item.src}><img src={item.src} alt={item.alt} /><span>{item.label}</span>{index === 0 && <span className="play-icon"><Play size={15} fill="currentColor" /></span>}</Link>)}</div></section>
 
-        {content?.sessionVideo?.src && <section className="section session-video-section"><div className="page-width session-video-grid"><div><SectionLabel>06 — Today's session</SectionLabel><h2>{content.sessionVideo.title ?? "Inside the dojo."}</h2><p>{content.sessionVideo.description ?? "A closer look at the work behind the standard."}</p></div><div className="session-video-frame"><video controls preload="metadata" poster={gallery[0]?.src}><source src={content.sessionVideo.src} /></video><span className="session-video-caption">Tap to play / 今日の稽古</span></div></div></section>}
+        {content?.sessionVideo?.src && <SessionVideo video={content.sessionVideo} poster={gallery[0]?.src} />}
         <section className="announcement-band"><div className="page-width announcement-inner"><SectionLabel>Latest from the dojo</SectionLabel><div className="announcement-items">{announcements.map((item: { date: string; title: string; description: string }) => <div className="announcement" key={item.title}><span>{item.date}</span><strong>{item.title}</strong><p>{item.description}</p></div>)}</div></div></section>
       </main>
       <Footer content={content} />
     </div>
   );
+  }
+function SessionVideo({ video, poster }: { video: { src: string; title?: string; description?: string }; poster?: string }) {
+  const share = async () => { const url = `${window.location.origin}/#today-session`; const shareData = { title: video.title ?? "Today’s session — The Cobra Karate Academy", text: video.description ?? "Watch today’s session from The Cobra Karate Academy.", url }; try { if (navigator.share) await navigator.share(shareData); else { await navigator.clipboard.writeText(url); alert("Session link copied."); } } catch { /* cancelled */ } };
+  return <section className="section session-video-section" id="today-session"><div className="page-width session-video-grid"><div><SectionLabel>06 — Today's session</SectionLabel><h2>{video.title ?? "Inside the dojo."}</h2><p>{video.description ?? "A closer look at the work behind the standard."}</p><button className="button button-ghost session-share" onClick={share}><Share2 size={16} /> Share session</button></div><div className="session-video-frame"><video controls preload="metadata" poster={poster}><source src={video.src} /></video><span className="session-video-caption">Tap to play / 今日の稽古</span></div></div></section>;
 }
-
 export function Footer({ content }: { content?: any }) {
   return <footer className="site-footer"><div className="page-width footer-grid"><div><Link href="/" className="footer-brand"><img src={logo} alt="Cobra crest" /><span>THE COBRA<br /><small>KARATE ACADEMY</small></span></Link><p>{content?.footer ?? "Training is the promise you keep to yourself."}</p></div><div className="footer-links"><div><span className="footer-heading">Explore</span><Link href="/academy">Academy</Link><Link href="/training">Training</Link><Link href="/gallery">Gallery</Link></div><div><span className="footer-heading">Connect</span><Link href="/contact">Contact</Link><a href={content?.social?.instagram ?? "#"}><Instagram size={15} /> Instagram</a><a href={content?.social?.youtube ?? "#"}><Youtube size={15} /> YouTube</a></div></div></div><div className="page-width footer-bottom"><span>© 2026 The Cobra Karate Academy</span><Link href="/attendance" className="attendance-footer-link">Check attendance</Link><Link href="/coach-login" className="coach-login">Coach login</Link><span>Built for the work.</span></div></footer>;
 }
