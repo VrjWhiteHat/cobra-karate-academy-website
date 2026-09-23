@@ -1,4 +1,5 @@
 import express, { type Express } from "express";
+import path from "node:path";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { registerOAuthRoutes } from "./_core/oauth";
 import { registerStorageProxy } from "./_core/storageProxy";
@@ -28,5 +29,10 @@ export function createApp(): Express {
     }
   });
   app.use("/api/trpc", createExpressMiddleware({ router: appRouter, createContext }));
+  if (process.env.VERCEL) {
+    const publicDir = path.resolve(process.cwd(), "public");
+    app.use(express.static(publicDir, { index: "index.html" }));
+    app.get("*", (_req, res) => res.sendFile(path.join(publicDir, "index.html")));
+  }
   return app;
 }
