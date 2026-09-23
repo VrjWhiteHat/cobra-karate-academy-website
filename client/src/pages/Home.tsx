@@ -1,4 +1,4 @@
-import { ArrowDownRight, ArrowUpRight, ChevronRight, Instagram, Menu, Play, Shield, Sparkles, X, Youtube } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, ChevronRight, Instagram, Menu, Play, Shield, X, Youtube } from "lucide-react";
 import { useState } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
@@ -12,6 +12,7 @@ function SiteHeader() {
     ["Training", "/training"],
     ["Achievements", "/achievements"],
     ["Gallery", "/gallery"],
+    ["Attendance", "/attendance"],
   ];
   return (
     <header className="site-header">
@@ -39,7 +40,6 @@ export default function Home() {
   const training = content?.training ?? [];
   const achievements = content?.achievements ?? [];
   const gallery = content?.gallery ?? [];
-  const stats = content?.stats ?? [];
   const announcements = content?.announcements ?? [];
 
   return (
@@ -61,13 +61,6 @@ export default function Home() {
           </div>
           <div className="hero-mark"><img src={logo} alt="The Cobra Karate Academy logo" /></div>
           <div className="scroll-cue"><ArrowDownRight size={18} /> Scroll to enter</div>
-        </section>
-
-        <section className="stats-strip">
-          <div className="page-width stats-grid">
-            {stats.map((stat: { value: string; label: string }) => <div className="stat" key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}
-            <div className="stat stat-note"><Sparkles size={17} /><span>Content stays editable<br />from Coach Login.</span></div>
-          </div>
         </section>
 
         <section className="section page-width split-section" id="academy">

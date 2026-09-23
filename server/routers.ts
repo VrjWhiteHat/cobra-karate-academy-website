@@ -5,7 +5,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { adminProcedure, publicProcedure, router } from "./_core/trpc";
 import { createCoachToken, verifyCoachCredentials } from "./coachAuth";
-import { getStoredContent, listStudents, lookupStudent, markAttendance, saveStoredContent, saveStudent } from "./db";
+import { getStoredContent, listAttendanceHistory, listStudents, lookupStudent, markAttendance, saveStoredContent, saveStudent } from "./db";
 
 const DEFAULT_CONTENT = {
   academyName: "The Cobra Karate Academy", tagline: "Never quit...it's your turn", eyebrow: "THE COBRA STANDARD", headline: "DISCIPLINE. POWER. PRECISION.", intro: "A modern martial arts academy built around quiet confidence, technical excellence, and the work no one sees.", story: "Your academy story belongs here. Add the origin, philosophy, and community you want future students to understand.", mission: "Build disciplined people through a practice that rewards patience, presence, and precision.", coachName: "Coach profile pending", coachBio: "Add the coach’s name, qualifications, and teaching philosophy from the admin dashboard.",
@@ -43,6 +43,7 @@ export const appRouter = router({
   attendance: router({
     lookup: publicProcedure.input(z.object({ studentId: z.string().trim().min(1).max(64) })).mutation(async ({ input }) => { const result = await lookupStudent(input.studentId); if (!result) throw new TRPCError({ code: "NOT_FOUND", message: "No active student record found for that ID." }); return result; }),
     listStudents: adminOnly.query(() => listStudents()),
+    history: adminOnly.query(() => listAttendanceHistory()),
     saveStudent: adminOnly.input(z.object({ studentId: z.string().trim().min(1).max(64), name: z.string().trim().min(1), belt: z.string().trim().min(1), enabled: z.number().int().min(0).max(1).default(1) })).mutation(async ({ input }) => { await saveStudent(input); return { success: true } as const; }),
     mark: adminOnly.input(z.object({ studentId: z.string().trim().min(1).max(64), date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/), status: z.enum(["present", "absent", "late"]) })).mutation(async ({ input }) => { await markAttendance(input); return { success: true } as const; }),
   }),
