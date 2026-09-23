@@ -3,11 +3,12 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 
-const logo = "/manus-storage/cobra-logo_d1e71238.png";
+const logo = "/manus-storage/cobra-official-logo_6a121ed2.png";
 
 function SiteHeader() {
   const [open, setOpen] = useState(false);
   const links = [
+    ["About us", "/about"],
     ["Academy", "/academy"],
     ["Training", "/training"],
     ["Achievements", "/achievements"],

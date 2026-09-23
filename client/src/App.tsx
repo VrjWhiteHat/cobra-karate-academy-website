@@ -12,11 +12,13 @@ import Gallery from "./pages/Gallery";
 import Attendance from "./pages/Attendance";
 import Contact from "./pages/Contact";
 import Admin from "./pages/Admin";
+import About from "./pages/About";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/about" component={About} />
       <Route path="/academy" component={Academy} />
       <Route path="/training" component={Training} />
       <Route path="/achievements" component={Achievements} />
