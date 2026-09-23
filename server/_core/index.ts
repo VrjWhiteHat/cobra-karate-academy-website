@@ -8,6 +8,7 @@ import { registerStorageProxy } from "./storageProxy";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
+import { storagePut } from "../storage";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -36,6 +37,21 @@ async function startServer() {
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
   registerStorageProxy(app);
   registerOAuthRoutes(app);
+  app.put("/api/coach-upload", express.raw({ limit: "100mb", type: "*/*" }), async (req, res) => {
+    try {
+      const context = await createContext({ req, res, info: {} as any });
+      if (!context.isCoach && context.user?.role !== "admin") return res.status(403).json({ message: "Coach access required." });
+      if (!Buffer.isBuffer(req.body) || req.body.length === 0) return res.status(400).json({ message: "File is required." });
+      const rawName = String(req.headers["x-file-name"] ?? "upload.bin");
+      const safeName = rawName.replace(/[^a-zA-Z0-9._-]/g, "-").slice(-120);
+      const kind = String(req.headers["x-media-kind"] ?? "media").replace(/[^a-zA-Z0-9_-]/g, "-");
+      const upload = await storagePut(`cobra/${kind}/${Date.now()}-${safeName}`, req.body, String(req.headers["content-type"] ?? "application/octet-stream"));
+      return res.json(upload);
+    } catch (error) {
+      console.error("[Coach Upload] Failed:", error);
+      return res.status(500).json({ message: "Upload failed." });
+    }
+  });
   // tRPC API
   app.use(
     "/api/trpc",
