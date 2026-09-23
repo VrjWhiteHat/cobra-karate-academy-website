@@ -123,3 +123,28 @@ h1 em, h2 em { font-style: normal; color: var(--red-bright); }
 .admin-back-button { display: inline-flex; align-items: center; gap: 7px; border: 0; color: #d8d0ca; background: transparent; font-family: var(--mono); font-size: 9px; letter-spacing: .06em; text-transform: uppercase; }.admin-back-button:hover { color: #fff; }
 @media (max-width: 800px) { .admin-nav { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; padding-top: 14px; border-top: 2px solid rgba(244,240,236,.2); }.admin-nav-label { grid-column: 1 / -1; }.admin-nav button { min-height: 42px; font-size: 8px; }.admin-sidebar-bottom { gap: 12px; justify-content: flex-start; }.admin-sidebar-bottom > * { flex: 0 0 auto; } }
 @supports (animation-timeline: view()) { .section, .announcement-band, .site-footer { animation-duration: 1s; animation-range: entry 0% cover 28%; } }
+
+/* Distinct lower-section atmospheres: the hero keeps the primary karate portrait. */
+#training.dark-section::after { background: linear-gradient(90deg, #111 0%, rgba(17,17,17,.62) 38%, rgba(17,17,17,.18)), url('/manus-storage/japanese-dojo_d40943e5.jpg') center / cover; }
+.achievements-section.dark-section::after { background: linear-gradient(90deg, #111 0%, rgba(17,17,17,.62) 38%, rgba(17,17,17,.18)), url('/manus-storage/kick-motion_d21625b0.jpg') center / cover; }
+.attendance-help.dark-section::after { background: linear-gradient(90deg, #111 0%, rgba(17,17,17,.72) 38%, rgba(17,17,17,.2)), url('/manus-storage/dojo-space_e988f290.jpg') center / cover; }
+/* Premium motion system: view-timeline where supported, fast GPU-only transforms, no layout animation. */
+@keyframes reveal-up { from { opacity: 0; transform: translate3d(0, 28px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
+@keyframes reveal-left { from { opacity: 0; transform: translate3d(-24px, 0, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
+@keyframes reveal-right { from { opacity: 0; transform: translate3d(24px, 0, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
+@keyframes gentle-zoom { from { transform: scale(1.04); } to { transform: scale(1); } }
+@keyframes ring-draw { from { stroke-dashoffset: 100; transform: rotate(-90deg); } to { stroke-dashoffset: 0; transform: rotate(-90deg); } }
+@supports (animation-timeline: view()) {
+  .split-section .section-intro, .feature-copy, .section-heading-row, .session-video-grid > div:first-child, .attendance-card { animation: reveal-left .75s cubic-bezier(.23,1,.32,1) both; animation-timeline: view(); animation-range: entry 0% cover 28%; }
+  .split-section .section-body, .feature-image, .training-grid, .achievement-list, .gallery-grid, .session-video-frame, .attendance-result { animation: reveal-right .75s cubic-bezier(.23,1,.32,1) both; animation-timeline: view(); animation-range: entry 0% cover 28%; }
+  .training-card, .achievement-row, .gallery-tile, .record-card, .announcement, .principles span { animation: reveal-up .7s cubic-bezier(.23,1,.32,1) both; animation-timeline: view(); animation-range: entry 0% cover 25%; }
+  .training-card:nth-child(2), .achievement-row:nth-child(2), .gallery-tile:nth-child(2), .record-card:nth-child(2), .announcement:nth-child(2) { animation-delay: 70ms; }
+  .training-card:nth-child(3), .achievement-row:nth-child(3), .gallery-tile:nth-child(3), .record-card:nth-child(3), .announcement:nth-child(3) { animation-delay: 140ms; }
+  .training-card:nth-child(4), .achievement-row:nth-child(4), .gallery-tile:nth-child(4), .record-card:nth-child(4) { animation-delay: 210ms; }
+  .feature-image img, .story-visual img, .gallery-tile img { animation: gentle-zoom 1.2s cubic-bezier(.23,1,.32,1) both; animation-timeline: view(); animation-range: entry 0% cover 35%; }
+  .hero { background-attachment: scroll; }
+}
+.attendance-ring { display: grid; place-items: center; width: 112px; height: 112px; border: 3px solid var(--red-bright); border-radius: 50%; background: radial-gradient(circle, rgba(237,28,39,.18), transparent 68%); box-shadow: 0 0 0 9px rgba(237,28,39,.08); animation: ring-pulse 2.8s ease-in-out infinite; }.attendance-ring strong { font-family: var(--condensed); font-size: 32px; }.attendance-score { display: flex; flex-direction: column; align-items: center; gap: 9px; }
+@keyframes ring-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.035); } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; } }
+@media (max-width: 800px) { .dark-section::after { width: 58%; opacity: .1; }.attendance-ring { width: 92px; height: 92px; }.attendance-ring strong { font-size: 27px; } }
